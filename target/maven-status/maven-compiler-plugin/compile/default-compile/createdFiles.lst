@@ -1,0 +1,6 @@
+br/com/fatec/catalogo/controllers/UsuarioController.class
+br/com/fatec/catalogo/config/UsuarioDataInitializer.class
+br/com/fatec/catalogo/controllers/LoginController.class
+br/com/fatec/catalogo/services/UsuarioService.class
+br/com/fatec/catalogo/repositories/UsuarioRepository.class
+br/com/fatec/catalogo/models/UsuarioModel.class

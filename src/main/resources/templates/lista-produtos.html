@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Produtos | FATEC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar Refinada */
+        nav {
+            background-color: #3498db;
+            padding: 0.8rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a.logo {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .btn-sair {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-sair:hover {
+            background-color: #e74c3c;
+        }
+
+        /* Container Principal */
+        .main-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+        }
+
+        /* Barra de Filtros */
+        .filter-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: center;
+        }
+
+        .filter-bar input, .filter-bar select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .filter-bar input { flex: 2; }
+        .filter-bar select { flex: 1; }
+
+        /* Tabela Estilizada */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        thead {
+            background-color: #3498db;
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+
+        tr:hover { background-color: #f9fbff; }
+
+        /* Status de Preço */
+        .price-tag {
+            font-weight: 700;
+            color: #27ae60;
+        }
+
+        .price-high {
+            color: #e74c3c !important;
+        }
+
+        /* Botões de Ação */
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-add { background: #2ecc71; color: white; }
+        .btn-add:hover { background: #27ae60; }
+
+        .btn-edit { background: #3498db; color: white; }
+        .btn-edit:hover { background: #2980b9; }
+
+        .btn-delete { background: #fdf0ef; color: #e74c3c; }
+        .btn-delete:hover { background: #e74c3c; color: white; }
+
+        .badge-category {
+            background: #ecf0f1;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/dashboard" class="logo">FATEC CATALOGO</a>
+    <div class="user-info" sec:authorize="isAuthenticated()">
+        <span>Olá, <strong sec:authentication="name">Usuário</strong></span>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-sair">Sair</button>
+        </form>
+    </div>
+</nav>
+
+<div class="main-container">
+    <div class="header-section">
+        <h1>Lista de Produtos</h1>
+        <div sec:authorize="hasRole('ADMIN')">
+            <a href="/produtos/novo" class="btn btn-add"> + Novo Produto</a>
+            <a href="/cadastro-usuario" class="btn btn-edit"> + Novo Usuário</a>
+        </div>
+    </div>
+
+    <form method="get" action="/produtos" class="filter-bar">
+        <select name="categoriaId" onchange="this.form.submit()">
+            <option value="">Todas as Categorias</option>
+            <option th:each="cat : ${categorias}"
+                    th:value="${cat.id}"
+                    th:text="${cat.nome}"
+                    th:selected="${cat.id == param.categoriaId}">
+            </option>
+        </select>
+        <input type="text" name="busca" placeholder="Pesquisar produto por nome..." th:value="${busca}">
+        <button type="submit" class="btn btn-edit">Filtrar</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Valor</th>
+            <th>Data</th>
+            <th sec:authorize="hasRole('ADMIN')">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${produtos}">
+            <td th:text="${p.nome}" style="font-weight: 600;"></td>
+            <td>
+                <span class="badge-category" th:text="${p.categoria != null ? p.categoria.nome : 'Geral'}"></span>
+            </td>
+            <td>
+                    <span class="price-tag"
+                          th:classappend="${p.valor > 1000 ? 'price-high' : ''}"
+                          th:text="'R$ ' + ${#numbers.formatDecimal(p.valor, 1, 'POINT', 2, 'COMMA')}">
+                    </span>
+            </td>
+            <td th:text="${#temporals.format(p.dataCadastro, 'dd/MM/yyyy')}"></td>
+            <td class="actions" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/produtos/editar/{id}(id=${p.idProduto})}" class="btn btn-edit">Editar</a>
+                <a th:href="@{/produtos/excluir/{id}(id=${p.idProduto})}"
+                   class="btn btn-delete"
+                   onclick="return confirm('Excluir este produto?')">Remover</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

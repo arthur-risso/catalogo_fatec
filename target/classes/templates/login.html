@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Catalogo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #dff1ff 0%, #f7fbff 50%, #e7fbe8 100%);
+            color: #1f2d3d;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 380px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(24, 39, 75, 0.12);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 1.25rem;
+            letter-spacing: 0.4px;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d4dbe3;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.16);
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            padding: 11px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: #ffffff;
+            background-color: #27ae60;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #219a52;
+        }
+
+        .alert {
+            margin-bottom: 14px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+        }
+
+        .alert-error {
+            background-color: #fdecea;
+            color: #9f3a38;
+            border: 1px solid #f2c7c4;
+        }
+
+        .alert-success {
+            background-color: #eaf8ef;
+            color: #2a7b43;
+            border: 1px solid #c5e9d1;
+        }
+
+        .footer-link {
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        .footer-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="card-header">
+        <h1>Acesso ao Catalogo</h1>
+    </div>
+    <div class="card-body">
+        <div th:if="${param.error}" class="alert alert-error">
+            Usuario ou senha invalidos.
+        </div>
+
+        <div th:if="${param.logout}" class="alert alert-success">
+            Voce saiu da sessao com sucesso.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="field">
+                <label for="username">Usuario</label>
+                <input id="username" type="text" name="username" required autofocus>
+            </div>
+
+            <div class="field">
+                <label for="password">Senha</label>
+                <input id="password" type="password" name="password" required>
+            </div>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div class="footer-link">
+            <a href="/produtos">Voltar para catalogo</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

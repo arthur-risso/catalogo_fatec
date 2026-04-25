@@ -1,0 +1,12 @@
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/CatalogoApplication.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/config/SecurityConfig.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/config/UsuarioDataInitializer.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/controllers/LoginController.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/controllers/ProdutoController.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/controllers/UsuarioController.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/models/ProdutoModel.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/models/UsuarioModel.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/repositories/ProdutoRepository.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/repositories/UsuarioRepository.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/services/ProdutoService.java
+/home/murilo/Downloads/catalogo/src/main/java/br/com/fatec/catalogo/services/UsuarioService.java
